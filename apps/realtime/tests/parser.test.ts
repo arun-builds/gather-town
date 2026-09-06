@@ -49,6 +49,23 @@ describe("parseClientMessage", () => {
         expect(result.success).toBe(true);
     });
 
+    it("parses a valid move message", () => {
+        const raw = JSON.stringify({
+            type: "move",
+            direction: "up",
+        });
+
+        const result = parseClientMessage(raw);
+
+        expect(result).toEqual({
+            success: true,
+            message: {
+                type: "move",
+                direction: "up",
+            },
+        });
+    });
+
     // ── Invalid JSON ────────────────────────────
 
     it("rejects invalid JSON", () => {
@@ -144,6 +161,38 @@ describe("parseClientMessage", () => {
     });
 
     // ── Incorrect field types ───────────────────
+
+    it("rejects move without direction", () => {
+        const raw = JSON.stringify({
+            type: "move",
+        });
+
+        const result = parseClientMessage(raw);
+
+        expect(result.success).toBe(false);
+    });
+
+    it("rejects move with invalid direction", () => {
+        const raw = JSON.stringify({
+            type: "move",
+            direction: "banana",
+        });
+
+        const result = parseClientMessage(raw);
+
+        expect(result.success).toBe(false);
+    });
+
+    it("rejects move with numeric direction", () => {
+        const raw = JSON.stringify({
+            type: "move",
+            direction: 123,
+        });
+
+        const result = parseClientMessage(raw);
+
+        expect(result.success).toBe(false);
+    });
 
     it("rejects a message with numeric type", () => {
         const raw = JSON.stringify({

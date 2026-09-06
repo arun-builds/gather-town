@@ -1,3 +1,5 @@
+export type Direction = "up" | "down" | "left" | "right";
+
 export type ClientMessage =
     | {
           type: "join_room";
@@ -5,6 +7,10 @@ export type ClientMessage =
       }
     | {
           type: "leave_room";
+      }
+    | {
+          type: "move";
+          direction: Direction;
       };
 
 export type ServerErrorCode =
@@ -25,6 +31,10 @@ export type ServerMessage =
           userId: string;
       }
     | {
+          type: "player_moved";
+          player: PlayerState;
+      }
+    | {
           type: "error";
           code: ServerErrorCode;
           message: string;
@@ -36,5 +46,5 @@ export type PlayerState = {
         x: number;
         y: number;
     };
-    direction: "up" | "down" | "left" | "right";
+    direction: Direction;
 };

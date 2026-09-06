@@ -25,9 +25,18 @@ const LeaveRoomSchema = z
     })
     .strict();
 
+const DirectionSchema = z.enum(["up", "down", "left", "right"]);
+
+const MoveSchema = z
+    .object({
+        type: z.literal("move"),
+        direction: DirectionSchema,
+    })
+    .strict();
+
 const ClientMessageSchema = z.discriminatedUnion(
     "type",
-    [JoinRoomSchema, LeaveRoomSchema],
+    [JoinRoomSchema, LeaveRoomSchema, MoveSchema],
 );
 
 export type ParseResult =

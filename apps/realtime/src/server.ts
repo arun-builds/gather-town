@@ -5,7 +5,7 @@ import { Router } from "./websocket/router";
 import { parseClientMessage } from "./websocket/parser";
 
 const wss = new WebSocketServer({
-    port: 8080,
+    port: 8081,
 });
 
 const router = new Router();
@@ -50,4 +50,4 @@ wss.on("connection", (socket) => {
     });
 });
 
-console.log("Realtime server running on :8080");
+console.log("Realtime server running on :8081");
